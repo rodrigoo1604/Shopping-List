@@ -27,7 +27,7 @@ class ArticleController extends Controller
         $name = $request->input('name');
         $section = $request->input('section');
 
-        if (Article::where('name', $name) && Article::where('section', $section)){
+        if (Article::where('name', $name)->where('section', $section)){
             return response()->json(['error' => 'Article already exists'], 400);
         }
 
