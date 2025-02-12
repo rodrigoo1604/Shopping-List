@@ -24,10 +24,10 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
 
-        $name = $request->input('name');
-        $section = $request->input('section');
+        $name = $request->name;
+        $section = $request->section;
 
-        if (Article::where('name', $name)->where('section', $section)){
+        if (Article::where('name', $name)->where('section', $section)->exists()){
             return response()->json(['error' => 'Article already exists'], 400);
         }
 
@@ -44,11 +44,11 @@ class ArticleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $article = Article::find($id);
+        $article = Article::findOrFail($id);
 
         $article -> update([
-            'entry' => $request->entry,
-            'emotion' => $request->emotion
+            'name' => $request->name,
+            'section' => $request->section
         ]);
         $article->save();
         return response()->json($article, 200);
